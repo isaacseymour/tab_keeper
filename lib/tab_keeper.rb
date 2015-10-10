@@ -1,5 +1,8 @@
 require "tab_keeper/version"
 
 module TabKeeper
-  # Your code goes here...
 end
+
+require "tab_keeper/field"
+require "tab_keeper/timer"
+require "tab_keeper/parser"
