@@ -13,3 +13,5 @@ require "tab_keeper/job_list"
 
 require "tab_keeper/login_shell"
 require "tab_keeper/rails_runner"
+
+require "tab_keeper/generator"

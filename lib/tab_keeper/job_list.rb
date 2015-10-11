@@ -5,6 +5,10 @@ module TabKeeper
       yield self if block_given?
     end
 
+    def to_a
+      @jobs
+    end
+
     def add(job, timer)
       # TODO: validate `timer.to_s`
       @jobs << [job, timer.to_s]
