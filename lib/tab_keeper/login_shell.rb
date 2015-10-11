@@ -14,11 +14,11 @@ module TabKeeper
     private
 
     def escaped_path
-      @code_directory.chars.map { |char| char == "'" ? "\\'" : char }.join
+      @code_directory.chars.map { |char| char == "'" ? "'\\''" : char }.join
     end
 
     def escaped_command
-      @command.chars.map { |char| char == "'" ? "\\'" : char }.join
+      @command.chars.map { |char| char == "'" ? "'\\''" : char }.join
     end
   end
 end

@@ -20,15 +20,15 @@ RSpec.describe TabKeeper::Generator do
 
   it do
     is_expected.to eq <<-CRONTAB
-*/5 * * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production \\'FrequentJob.run\\''
+*/5 * * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''FrequentJob.run'\\'''
 
-0 0 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production \\'MidnightJob.run\\''
+0 0 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''MidnightJob.run'\\'''
 
-30 12 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production \\'LunchtimeJob.run\\''
+30 12 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''LunchtimeJob.run'\\'''
 
-30 7 * * 1 /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production \\'HappyMondayJob.run\\''
+30 7 * * 1 /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''HappyMondayJob.run'\\'''
 
-15 16 25 * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production \\'PaydayJob.run\\''
+15 16 25 * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''PaydayJob.run'\\'''
     CRONTAB
   end
 end

@@ -15,10 +15,11 @@ RSpec.describe TabKeeper::LoginShell do
   end
 
   context "when the job needs escaping" do
-    let(:job) { "bin/run 'MyJob.run(\\'arg\\')'" }
+    let(:job) { "bin/run 'MyJob.run('\\''arg'\\'')'" }
     it do
       is_expected.to eq(
-        "/bin/bash -l -c 'cd /path/to/code && bin/run \\'MyJob.run(\\\\'arg\\\\')\\''")
+        "/bin/bash -l -c 'cd /path/to/code && " \
+        "bin/run '\\''MyJob.run('\\''\\'\\'''\\''arg'\\''\\'\\'''\\'')'\\'''")
     end
   end
 end
