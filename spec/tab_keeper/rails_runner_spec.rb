@@ -8,7 +8,7 @@ RSpec.describe TabKeeper::RailsRunner do
 
   context "when there are 's to escape" do
     let(:previous) { "MyJob.run('arg')" }
-    it { is_expected.to eq("bin/rails runner -e staging 'MyJob.run(\\'arg\\')'") }
+    it { is_expected.to eq("bin/rails runner -e staging 'MyJob.run('\\''arg'\\'')'") }
   end
 
   context "when this is the first transformer in the pipeline" do

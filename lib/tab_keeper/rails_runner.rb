@@ -15,7 +15,7 @@ module TabKeeper
     attr_reader :rails_env, :to_run
 
     def escaped_previous
-      to_run.chars.map { |char| char == "'" ? "\\'" : char }.join
+      to_run.chars.map { |char| char == "'" ? "'\\''" : char }.join
     end
 
     def verify!
