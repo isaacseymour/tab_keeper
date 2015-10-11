@@ -5,6 +5,10 @@ module TabKeeper
       yield self if block_given?
     end
 
+    def generate(generator, **options)
+      generator.generate(@jobs, **options)
+    end
+
     def to_a
       @jobs
     end
