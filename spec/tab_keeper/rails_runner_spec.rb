@@ -18,6 +18,6 @@ RSpec.describe TabKeeper::RailsRunner do
 
   context "without a rails_env set" do
     let(:rails_env) { nil }
-    specify { expect { subject }.to raise_error(ArgumentError) }
+    it { is_expected.to eq("bin/rails runner 'MyJob.run'") }
   end
 end
