@@ -5,6 +5,7 @@ module TabKeeper
                              timing: nil,
                              log_directory: nil,
                              error_suffix: nil,
+                             include_date_in_log_name: false,
                              **_options)
       if previous.nil?
         raise ArgumentError, "#{self.class.name} must not be first in the cron pipeline!"
@@ -24,11 +25,12 @@ module TabKeeper
       @timing = timing
       @log_directory = log_directory
       @error_suffix = error_suffix
+      @include_date_in_log_name = include_date_in_log_name
     end
 
     def to_s
       "#{@previous} " \
-        ">> #{@log_directory}/#{job_name}_`date +#{date_format}`.log " \
+        ">> #{@log_directory}/#{job_name}#{date_part}.log " \
         "2>#{error_part}"
     end
 
@@ -38,7 +40,16 @@ module TabKeeper
 
     def error_part
       return "&1" unless @error_suffix
-      "> #{@log_directory}/#{job_name}_`date +#{date_format}`.#{@error_suffix}.log"
+      "> #{@log_directory}/#{job_name}#{date_part}.#{@error_suffix}.log"
+    end
+
+    def date_part
+      return unless include_date?
+      "_`date +#{date_format}`"
+    end
+
+    def include_date?
+      @include_date_in_log_name
     end
 
     def date_format
