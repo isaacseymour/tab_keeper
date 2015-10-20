@@ -1,3 +1,4 @@
-/.bundle/
-/Gemfile.lock
-/.rspec_log
+*.gem
+.bundle
+Gemfile.lock
+.rspec_log
