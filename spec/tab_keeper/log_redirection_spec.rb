@@ -2,9 +2,10 @@ RSpec.describe TabKeeper::LogRedirection do
   let(:instance) do
     described_class.new("scripts/thing",
                         job: "scripts/thing",
+                        job_name_proc: job_name_proc,
                         timing: timing,
                         log_directory: "/path/to/logs",
-                        error_suffix: error_suffix) { |job| job_name_proc.call(job) }
+                        error_suffix: error_suffix)
   end
   subject { instance.to_s }
   let(:job_name_proc) { ->(job) { job } }

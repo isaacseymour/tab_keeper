@@ -1,7 +1,11 @@
 module TabKeeper
   class LogRedirection
-    def initialize(previous, job: nil, timing: nil, log_directory: nil, error_suffix: nil,
-                   **_options)
+    def initialize(previous, job: nil,
+                             job_name_proc: ->(x) { x },
+                             timing: nil,
+                             log_directory: nil,
+                             error_suffix: nil,
+                             **_options)
       if previous.nil?
         raise ArgumentError, "#{self.class.name} must not be first in the cron pipeline!"
       end
@@ -16,7 +20,7 @@ module TabKeeper
       # thing after a "::" (if it's a class name), or a "/" (if it's a script, and removes
       # the need to escape yay)
       job_name = Array(@job).first.to_s.split(/((::)|\/)/).last
-      @job_name = block_given? ? yield(job_name) : job_name
+      @job_name = job_name_proc.call(job_name)
       @timing = timing
       @log_directory = log_directory
       @error_suffix = error_suffix
