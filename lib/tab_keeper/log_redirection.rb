@@ -20,7 +20,7 @@ module TabKeeper
       # Normalise the job name: if it's an array take the first thing, then get the last
       # thing after a "::" (if it's a class name), or a "/" (if it's a script, and removes
       # the need to escape yay)
-      job_name = Array(@job).first.to_s.split(/((::)|\/)/).last
+      job_name = Array(@job).first.to_s.split(/((::)|\/)/).last.split(/[^\w\d]/).first
       @job_name = job_name_proc.call(job_name)
       @timing = timing
       @log_directory = log_directory
@@ -60,7 +60,7 @@ module TabKeeper
         hour_component,
         min_component,
         second_component
-      ].compact.join('-').chars.map { |char| char == '%' ? '\%' : char }.join
+      ].compact.join('-')
     end
 
     def day_component
@@ -72,7 +72,7 @@ module TabKeeper
     end
 
     def min_component
-      '%m' if more_than_once_a_day?
+      '%M' if more_than_once_a_day?
     end
 
     def second_component

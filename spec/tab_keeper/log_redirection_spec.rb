@@ -1,7 +1,7 @@
 RSpec.describe TabKeeper::LogRedirection do
   let(:instance) do
     described_class.new("scripts/thing",
-                        job: "scripts/thing",
+                        job: "scripts/thing.sh",
                         job_name_proc: job_name_proc,
                         timing: timing,
                         log_directory: "/path/to/logs",
@@ -34,7 +34,7 @@ RSpec.describe TabKeeper::LogRedirection do
     it do
       is_expected.to eq(
         "scripts/thing >> /path/to/logs/thing_" \
-        "`date +\\%Y-\\%m-\\%d-\\%H-\\%m-\\%s`.log 2>&1")
+        "`date +%Y-%m-%d-%H-%M-%s`.log 2>&1")
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe TabKeeper::LogRedirection do
     it do
       is_expected.to eq(
         "scripts/thing >> /path/to/logs/thing_" \
-        "`date +\\%Y-\\%m-\\%d-\\%H-\\%m`.log 2>&1")
+        "`date +%Y-%m-%d-%H-%M`.log 2>&1")
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe TabKeeper::LogRedirection do
     it do
       is_expected.to eq(
         "scripts/thing >> /path/to/logs/thing_" \
-        "`date +\\%Y-\\%m-\\%d`.log 2>&1")
+        "`date +%Y-%m-%d`.log 2>&1")
     end
 
     context "with a separate error file" do
@@ -60,8 +60,8 @@ RSpec.describe TabKeeper::LogRedirection do
       it do
         is_expected.to eq(
           "scripts/thing " \
-          ">> /path/to/logs/thing_`date +\\%Y-\\%m-\\%d`.log " \
-          "2>> /path/to/logs/thing_`date +\\%Y-\\%m-\\%d`.error.log")
+          ">> /path/to/logs/thing_`date +%Y-%m-%d`.log " \
+          "2>> /path/to/logs/thing_`date +%Y-%m-%d`.error.log")
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe TabKeeper::LogRedirection do
       it do
         is_expected.to eq(
           "scripts/thing >> /path/to/logs/thing_sadness_" \
-          "`date +\\%Y-\\%m-\\%d`.log 2>&1")
+          "`date +%Y-%m-%d`.log 2>&1")
       end
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe TabKeeper::LogRedirection do
     it do
       is_expected.to eq(
         "scripts/thing >> /path/to/logs/thing_" \
-        "`date +\\%Y-\\%m-\\%d`.log 2>&1")
+        "`date +%Y-%m-%d`.log 2>&1")
     end
   end
 
@@ -89,7 +89,7 @@ RSpec.describe TabKeeper::LogRedirection do
     it do
       is_expected.to eq(
         "scripts/thing >> /path/to/logs/thing_" \
-        "`date +\\%Y-\\%m`.log 2>&1")
+        "`date +%Y-%m`.log 2>&1")
     end
   end
 end

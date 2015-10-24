@@ -10,25 +10,29 @@ RSpec.describe TabKeeper::Generator do
     end.to_a
   end
 
-  let(:pipeline) { [TabKeeper::RailsRunner, TabKeeper::LoginShell] }
+  let(:pipeline) do
+    [TabKeeper::RailsRunner, TabKeeper::LogRedirection, TabKeeper::LoginShell]
+  end
   let(:options) do
     {
       code_directory: '/path/to/code',
-      rails_env: :production
+      rails_env: :production,
+      log_directory: '/path/to/logs',
+      include_date_in_log_name: true
     }
   end
 
   it do
     is_expected.to eq <<-CRONTAB
-*/5 * * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''FrequentJob.run'\\'''
+*/5 * * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''FrequentJob.run'\\'' >> /path/to/logs/FrequentJob_`date +\\%Y-\\%m-\\%d-\\%H-\\%M-\\%s`.log 2>&1'
 
-0 0 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''MidnightJob.run'\\'''
+0 0 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''MidnightJob.run'\\'' >> /path/to/logs/MidnightJob_`date +\\%Y-\\%m-\\%d`.log 2>&1'
 
-30 12 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''LunchtimeJob.run'\\'''
+30 12 * * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''LunchtimeJob.run'\\'' >> /path/to/logs/LunchtimeJob_`date +\\%Y-\\%m-\\%d`.log 2>&1'
 
-30 7 * * 1 /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''HappyMondayJob.run'\\'''
+30 7 * * 1 /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''HappyMondayJob.run'\\'' >> /path/to/logs/HappyMondayJob_`date +\\%Y-\\%m-\\%d`.log 2>&1'
 
-15 16 25 * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''PaydayJob.run'\\'''
+15 16 25 * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''PaydayJob.run'\\'' >> /path/to/logs/PaydayJob_`date +\\%Y-\\%m`.log 2>&1'
     CRONTAB
   end
 end
