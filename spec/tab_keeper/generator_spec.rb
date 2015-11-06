@@ -35,4 +35,14 @@ RSpec.describe TabKeeper::Generator do
 15 16 25 * * /bin/bash -l -c 'cd /path/to/code && bin/rails runner -e production '\\''PaydayJob.run'\\'' >> /path/to/logs/PaydayJob_`date +\\%Y-\\%m`.log 2>&1'
     CRONTAB
   end
+
+  context "when the line gets over 900 characters long" do
+    let(:job_list) do
+      TabKeeper::JobList.new { |tab| tab.daily("A" * 901, hour: 12) }.to_a
+    end
+
+    it "raises" do
+      expect { subject }.to raise_error(/too long/)
+    end
+  end
 end
